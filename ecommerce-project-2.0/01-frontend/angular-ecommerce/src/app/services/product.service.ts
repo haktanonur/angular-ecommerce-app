@@ -24,7 +24,7 @@ export class ProductService {
   }
 
   searchProducts(theKeyword: string): Observable<Product[]>{
-     // need to build URL based on category id 
+     // need to build URL based on keyword
      const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}`;
 
      return this.getProducts(searchUrl);
