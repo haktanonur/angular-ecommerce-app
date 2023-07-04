@@ -1,5 +1,5 @@
 export class Product {
-    constructor(public id: number,
+    constructor(public id: string,
                 public sku:String,
                 public name:String,
                 public description:String,
