@@ -24,6 +24,7 @@ export class ProductListComponent implements OnInit {
 
   previousKeyword: string = "";
 
+
   constructor(private productService: ProductService,
               private cartService: CartService,
               private route: ActivatedRoute) { }
