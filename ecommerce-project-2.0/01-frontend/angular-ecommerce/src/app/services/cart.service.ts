@@ -15,26 +15,25 @@ export class CartService {
   constructor() { }
 
   addToCart(theCartItem: CartItem) {
-
     // check if we already have the item in our cart
     let alreadyExistsInCart: boolean = false;
     let existingCartItem: CartItem | undefined;
-
+  
     if (this.cartItems.length > 0) {
-      existingCartItem = this.cartItems.find( tempCartItem => tempCartItem.id === theCartItem.id);
+      existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id === theCartItem.id);
+      alreadyExistsInCart = (existingCartItem != undefined); // Kontrolü ekleyin
     }
-
+  
     if (alreadyExistsInCart) {
       // increment the quantity
-      if(existingCartItem){
+      if (existingCartItem) {
         existingCartItem.quantity++;
       }
-    }
-    else {
+    } else {
       // just add the item to the array
       this.cartItems.push(theCartItem);
     }
-
+  
     // compute cart total price and total quantity
     this.computeCartTotals();
   }
