@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Country } from 'src/app/common/country';
+import { State } from 'src/app/common/state';
 import { Luv2ShopFormService } from 'src/app/services/luv2-shop-form.service';
 
 @Component({
@@ -16,6 +18,11 @@ export class CheckoutComponent {
 
   creditCartYears: number[] = [];
   creditCartMonths: number[] = [];
+
+  countries: Country[]  = [];
+
+  shippingAddressStates: State[] = [];
+  billingAddressStates: State[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private luv2ShopFormService: Luv2ShopFormService) { }
@@ -70,7 +77,16 @@ export class CheckoutComponent {
         console.log("Retrieved credit card years: " + JSON.stringify(data));
         this.creditCartYears = data;
       }
-    )
+    );
+
+    // populate countries
+    this.luv2ShopFormService.getCountries().subscribe(
+      data => {
+        console.log(JSON.stringify(data));
+        this.countries = data;
+      }
+    );
+
 
   }
 
@@ -81,8 +97,13 @@ export class CheckoutComponent {
     if (billingAddressControl && shippingAddressControl) {
       if ((event.target as HTMLInputElement).checked) {
         billingAddressControl.setValue(shippingAddressControl.value);
+        
+        this.billingAddressStates = this.shippingAddressStates;
+
       } else {
         billingAddressControl.reset();
+
+        this.billingAddressStates = [];
       }
     }
   }
@@ -116,6 +137,36 @@ export class CheckoutComponent {
         this.creditCartMonths = data;
       }
     );
+  }
+
+  getStates(formGroupName: string){
+
+    const formGroup = this.checkoutFormGroup.get(formGroupName);
+
+    const countryCode = formGroup?.value.country.code;
+    const countryName = formGroup?.value.country.name;
+
+    console.log(`${formGroupName} country code: ${countryCode}`);
+    console.log(`${formGroupName} country name: ${countryName}`);
+
+    this.luv2ShopFormService.getStates(countryCode).subscribe(
+      data => {
+
+        if(formGroupName === 'shippingAddress'){
+          this.shippingAddressStates = data;
+        }
+        else{
+          this.billingAddressStates = data;
+        }
+
+        // select first item default
+        if(formGroup){
+          formGroup.get('state')?.setValue(data[0]);
+        }
+      
+      }
+    );
 
   }
+
 }
