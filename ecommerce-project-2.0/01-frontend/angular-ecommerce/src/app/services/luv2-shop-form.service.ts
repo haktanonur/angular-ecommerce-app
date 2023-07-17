@@ -22,7 +22,6 @@ export class Luv2ShopFormService {
   }
 
   getStates(theCountryCode: string): Observable<State[]> {
-
     // search url
     const searchStatesUrl = `${this.statesUrl}/search/findByCountryCode?code=${theCountryCode}`;
 
@@ -43,7 +42,7 @@ export class Luv2ShopFormService {
     }
 
     return of(data);
-
+  
   }
 
   getCreditCartYears(): Observable<number[]> {
