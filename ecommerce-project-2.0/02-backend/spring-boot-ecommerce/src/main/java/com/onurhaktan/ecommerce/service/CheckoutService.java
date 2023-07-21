@@ -5,6 +5,6 @@ import com.onurhaktan.ecommerce.dto.PurchaseResponse;
 
 public interface CheckoutService {
 
-    PurchaseResponse placeHolder(Purchase purchase);
+    PurchaseResponse placeOrder(Purchase purchase);
 
 }
